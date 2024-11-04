@@ -1,5 +1,3 @@
-#include <avr/io.h>
-#include <util/delay.h>
 #include <Arduino.h>
 
 
@@ -67,7 +65,7 @@ void setup() {
 
   
   TCCR1A = 0; 
-  TCCR1B = (1 << WGM12) | (1 << CS12); 
+  TCCR1B = (1 << WGM12) | (1 << CS12); /// enabling CTC, sets the prescaler to 256
   OCR1A = 31250; 
   TIMSK1 |= (1 << OCIE1A); 
 }
@@ -83,8 +81,9 @@ void loop() {
     
     if (millis() - gameStartTime >= gameDuration) {
       gameActive = false; 
-      Serial.print("Time's up! You got ");
+      Serial.print("\nTime's up! You got ");
       Serial.print(correctWordCount); 
+      Serial.print(" words correct!");
       digitalWrite(RGB_GREEN, LOW);
     }
 
@@ -109,11 +108,10 @@ ISR(TIMER1_COMPA_vect) {
 void startButtonPressed() {
   unsigned long currentTime = millis();
 
- 
   if ((currentTime - lastDebounceTime) > debounceDelay) {
     if (gameActive) {
       gameActive = false;
-      Serial.println("Game stopped!");
+      Serial.println("\nGame stopped!");
 
       digitalWrite(RGB_RED, LOW);
       digitalWrite(RGB_GREEN, LOW);
@@ -137,20 +135,20 @@ void changeDifficulty() {
 
       switch (difficultyLevel) {
         case 1:
-          Serial.println("Difficulty set to Easy (10 seconds per word).");
+          Serial.println("\nEasy mode on!");
           wordTimeLimit = 10000; 
           break;
         case 2:
-          Serial.println("Difficulty set to Medium (7 seconds per word).");
+          Serial.println("\nMedium mode on!");
           wordTimeLimit = 7000; 
           break;
         case 3:
-          Serial.println("Difficulty set to Hard (5 seconds per word).");
+          Serial.println("\nHard mode on!");
           wordTimeLimit = 5000;
           break;
       }
     } else {
-      Serial.println("Cannot change difficulty while the game is active.");
+      Serial.println("\nCan't change difficulty while the game is active.");
     }
 
     lastDebounceTime = currentTime;
@@ -174,7 +172,7 @@ void countdownSequence() {
     delay(500); 
   }
 
-  Serial.println("GO!"); 
+  Serial.println("\nGO!"); 
 }
 
 void startGame() {
@@ -196,7 +194,7 @@ void nextWord() {
   Serial.println(targetWord);
 
  
-  userInput = "";
+  userInput ="";
   correctChars = 0; 
   wordStartTime = millis(); 
 }
