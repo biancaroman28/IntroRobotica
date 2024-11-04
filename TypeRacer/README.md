@@ -29,7 +29,7 @@ https://github.com/user-attachments/assets/9f87dbdd-09d5-42ce-886e-56d32d76c809
 ![WhatsApp Image 2024-11-05 at 01 32 10 (1)](https://github.com/user-attachments/assets/02be1e7b-e0d6-4488-9721-daa6ef4b478b)
 
 
-[Link catre Video Demonstrativ](#)
+
 
 ## Schema Electrica
 
