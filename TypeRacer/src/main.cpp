@@ -22,7 +22,7 @@ unsigned long lastDebounceTime = 0;
 unsigned long debounceDelay = 50;
 unsigned long gameStartTime = 0;
 const unsigned long gameDuration = 30000; 
-unsigned long wordStartTime = 0;
+unsigned long wordStartTime = 0;t
 unsigned long wordTimeLimit = 10000; 
 
 int difficultyLevel = 1; 
@@ -79,7 +79,7 @@ void loop() {
     }
 
     
-    if (millis() - gameStartTime >= gameDuration) {
+    if (millis() - gameStartTime >= gameDuration)  {
       gameActive = false; 
       Serial.print("\nTime's up! You got ");
       Serial.print(correctWordCount); 
@@ -156,24 +156,39 @@ void changeDifficulty() {
 }
 
 void countdownSequence() {
-  for (int i = 3; i > 0; i--) {
-    Serial.println(i);
+  static unsigned long previousMillis = 0;
+  static int count = 3;
+  static bool ledState = LOW;
+  const unsigned long interval = 500; 
+  
+  if (count > 0) {
+    unsigned long currentMillis = millis();
+    
+    if (currentMillis - previousMillis >= interval) {
+      previousMillis = currentMillis;
 
- 
-    digitalWrite(RGB_RED, HIGH);
-    digitalWrite(RGB_GREEN, HIGH);
-    digitalWrite(RGB_BLUE, HIGH);
-    delay(500); 
+      ledState = !ledState;
+      
+      digitalWrite(RGB_RED, ledState);
+      digitalWrite(RGB_GREEN, ledState);
+      digitalWrite(RGB_BLUE, ledState);
 
-   
+      if (ledState == HIGH) {
+        Serial.println(count);
+        count--;
+      }
+    }
+  } else {
     digitalWrite(RGB_RED, LOW);
     digitalWrite(RGB_GREEN, LOW);
     digitalWrite(RGB_BLUE, LOW);
-    delay(500); 
+    Serial.println("\nGO!");
+    
+    count = 3;
+    previousMillis = millis();  
   }
-
-  Serial.println("\nGO!"); 
 }
+
 
 void startGame() {
   digitalWrite(RGB_RED, LOW);
@@ -202,7 +217,7 @@ void nextWord() {
 void checkInput(char input) {
   if (input == '\b' && userInput.length() > 0) {
     userInput.remove(userInput.length() - 1);
-    correctChars = min(correctChars, userInput.length());
+   /// correctChars = min(correctChars, userInput.length());
     Serial.print("\b \b"); 
   } else if (isPrintable(input)) {
     userInput += input;
