@@ -1,6 +1,6 @@
 
-### Tema 3
-Coechipier: 
+# Tema 3
+Coechipier: Radu Daniel - Dumitru https://github.com/dvmizew
 
 ## Descrierea temei
 Tema presupune crearea unui joc de reflex competitiv pentru doi jucători. Ambii participanți concurează pentru cel mai mare punctaj (nimic special până aici), întrecându-se în viteza de reacție.
